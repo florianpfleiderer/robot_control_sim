@@ -1,0 +1,37 @@
+// Created on Fri Nov 14 2025 by Florian Pfleiderer
+
+#pragma once
+
+#include <utility> // std::pair
+
+class Controller {
+public:
+    Controller(
+        double kp = 1.0, 
+        double ki = 0.0,
+        double kd = 0.0
+    ) noexcept;
+
+    /**
+     * @brief Computes next acceleration commands based on input.
+     */
+    [[nodiscard]] std::pair<double, double> compute(
+        double target_x,
+        double target_y,
+        double current_x, 
+        double current_y,
+        double dt
+    ) noexcept;
+
+    void reset() noexcept;
+
+private:
+    double kp_{};
+    double ki_{};
+    double kd_{};
+    static constexpr double integral_limit_{10.0};
+    static constexpr double integral_leak_{0.0};
+    std::pair<double, double> integral_error_{};
+    std::pair<double, double> prev_error_{};
+    bool first_call_{true};
+}
