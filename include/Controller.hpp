@@ -2,7 +2,7 @@
 
 #pragma once
 
-#include <utility> // std::pair
+#include <Coordinate.hpp>
 
 class Controller {
 public:
@@ -15,7 +15,7 @@ public:
     /**
      * @brief Computes next acceleration commands based on input.
      */
-    [[nodiscard]] std::pair<double, double> compute(
+    [[nodiscard]] Coordinate<double> compute(
         double target_x,
         double target_y,
         double current_x, 
@@ -31,7 +31,7 @@ private:
     double kd_{};
     static constexpr double integral_limit_{10.0};
     static constexpr double integral_leak_{0.0};
-    std::pair<double, double> integral_error_{};
-    std::pair<double, double> prev_error_{};
+    Coordinate<double> integral_error_{};
+    Coordinate<double> prev_error_{};
     bool first_call_{true};
 }
