@@ -37,9 +37,9 @@ FetchContent_MakeAvailable(eigen)
 # --- Library target: core simulation code -----------------------------------
 
 add_library(robot_sim_lib
-    src/Robot.cpp
-    src/Controller.cpp
-    src/Sensor.cpp
+    src/robot.cpp
+    src/controller.cpp
+    src/sensor.cpp
 )
 
 # Public headers live in include/

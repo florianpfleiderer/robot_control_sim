@@ -2,7 +2,7 @@
 
 #pragma once
 
-#include <coordinate.h>
+#include "coordinate.h"
 #include <algorithm>
 
 class Controller {

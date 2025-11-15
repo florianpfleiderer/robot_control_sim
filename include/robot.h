@@ -5,7 +5,8 @@
 #include <utility> // std::pair
 
 /**
- * @brief The robot class knows the position and velocity of the robot.
+ * The robot class knows the position and velocity of the robot.
+ * @author Florian Pfleiderer
  */
 class Robot {
 public:
