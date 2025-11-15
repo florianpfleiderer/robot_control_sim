@@ -3,7 +3,7 @@
 cmake_minimum_required(VERSION 3.14)
 
 project(RobotSim
-    VERSION 0.1.0
+    VERSION 0.1
     LANGUAGES CXX
 )
 
@@ -19,6 +19,20 @@ if (MSVC)
 else()
     add_compile_options(-Wall -Wextra -Wpedantic)
 endif()
+
+# # --- Add Eigen as a subdirectory ---------------------------------------------
+
+# add_subdirectory(thirdparty/eigen)
+
+# --- Fetch Eigen automatically -----------------------------------------------
+
+include(FetchContent)
+FetchContent_Declare(
+    eigen
+    GIT_REPOSITORY https://gitlab.com/libeigen/eigen.git
+    GIT_TAG 5.0.1
+)
+FetchContent_MakeAvailable(eigen)
 
 # --- Library target: core simulation code -----------------------------------
 
@@ -37,6 +51,11 @@ target_include_directories(robot_sim_lib
 # Make sure consumers see we need C++17
 target_compile_features(robot_sim_lib
     PUBLIC cxx_std_17
+)
+
+# Link Eigen to your library
+target_link_libraries(robot_sim_lib
+    PUBLIC Eigen3::Eigen
 )
 
 # --- Executable target: main program ----------------------------------------
