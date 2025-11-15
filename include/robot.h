@@ -33,4 +33,4 @@ private:
     static constexpr double motor_efficiency_{0.8};
     static constexpr double disturbance_x_{-0.5};
     static constexpr double disturbance_y_{0.0};
-}
+};

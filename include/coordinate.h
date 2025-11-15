@@ -20,4 +20,24 @@ struct Coordinate {
     Coordinate operator*(T k) const noexcept {
         return {x * k, y * k};
     }
+
+    Coordinate operator/(T k) const noexcept {
+        return {x / k, y / k};
+    }
+
+    Coordinate& operator+=(const Coordinate& other) {
+        x += other.x;
+        y += other.y;
+        return *this;
+    }
+
+    Coordinate& operator*=(T k) noexcept {
+        x *= k;
+        y *= k;
+        return *this;
+    }
+
+    bool operator<(const Coordinate& other) {
+        return x < other.x && y < other.y;
+    }
 };

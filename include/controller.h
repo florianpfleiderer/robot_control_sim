@@ -2,7 +2,8 @@
 
 #pragma once
 
-#include <Coordinate.hpp>
+#include <coordinate.h>
+#include <algorithm>
 
 class Controller {
 public:
@@ -33,5 +34,7 @@ private:
     static constexpr double integral_leak_{0.0};
     Coordinate<double> integral_error_{};
     Coordinate<double> prev_error_{};
+    Coordinate<double> filtered_derivative_{0, 0};
+    static constexpr double derivative_filter_alpha_{0.2};
     bool first_call_{true};
-}
+};
