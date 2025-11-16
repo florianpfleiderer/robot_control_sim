@@ -8,5 +8,4 @@ A Kalman Filter helps with state estimation and smoothing of sensor data.
 
 ## TODO
 
-* implement kalman filter
 * wrap project with pybind

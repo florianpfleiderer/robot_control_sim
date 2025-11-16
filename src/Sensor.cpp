@@ -2,8 +2,6 @@
 
 #include "sensor.h"
 
-#include <random>
-
 Sensor::Sensor(double noise_std)
     : noise_std_ {noise_std},
       // Seed RNG using a non-deterministic source

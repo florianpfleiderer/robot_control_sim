@@ -50,5 +50,7 @@
     },
     "fileHeaderComment.parameter": {
         "*": {}
-    }
+    },
+    "editor.formatOnSave": false,
+    "editor.tabSize": 2
 }
