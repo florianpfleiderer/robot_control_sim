@@ -1,11 +1,13 @@
 # Robot Control Sim
 
-This app simulates a PID controller that steers a "robot" towards a point in a 2D coordinate system.
+Lightweight C++ simulator of a PID-controlled robot in 2D. Includes a Kalman filter for smoothing noisy sensor readings.
 
-## Filtering Noisy Data
+Build:
 
-A Kalman Filter helps with state estimation and smoothing of sensor data.
+```bash
+cmake -S . -B build && cmake --build build
+```
 
-## TODO
+Binary: `bin/robot_sim`
 
-* wrap project with pybind
+TODO: add a `pybind` wrapper
