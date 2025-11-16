@@ -25,7 +25,7 @@ int main() {
 
   using KF2D = PositionVelocityKF2D;
 
-  // Initialize Kalman filter using the robot's initial state and a small
+  // Initialise Kalman filter using the robot's initial state and a small
   // covariance
   const auto [x0_init, y0_init]   = robot.position();
   const auto [vx0_init, vy0_init] = robot.velocity();
