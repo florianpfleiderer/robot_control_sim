@@ -37,7 +37,7 @@ def plot_time_series(true_xs, true_ys, kf_xs=None, kf_ys=None):
 
 if __name__ == "__main__":
     # Read CSV
-    df = pd.read_csv("build/trajectory_data.csv")
+    df = pd.read_csv("trajectory_data.csv")
     
     target = (5.0, 5.0)
     # Pass Kalman filter columns `x_kf` and `y_kf` to plotting functions

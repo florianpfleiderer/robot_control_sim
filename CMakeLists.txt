@@ -40,6 +40,7 @@ add_library(robot_sim_lib
     src/robot.cpp
     src/controller.cpp
     src/sensor.cpp
+    src/mpc.cpp
 )
 
 # Public headers live in include/

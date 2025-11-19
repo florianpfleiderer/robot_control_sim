@@ -4,6 +4,7 @@
 ### Folders and files ###
 
 thirdparty
+*.csv
 
 ### C ###
 # Prerequisites
