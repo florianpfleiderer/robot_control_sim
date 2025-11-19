@@ -240,3 +240,16 @@ using PositionVelocityKF1D = KalmanFilter<double, 2, 1, 1>;
  * @author Florian Pfleiderer
  */
 using PositionVelocityKF2D = KalmanFilter<double, 4, 2, 2>;
+
+/**
+ * @brief Alias for a state extension with constant offset.
+ * 
+ * State:   [x, v_x, y, v_y, d_x, d_y]^T
+ * Control: [a_x, a_y]^T
+ * Meas:    [x_meas, y_meas]^T
+ * 
+ * This accounts for an unknown constan force in the phsyical environment.
+ * 
+ * @author Florian Pfleiderer
+ */
+using PositionVelocityDisturbanceKF2D = KalmanFilter<double, 6, 2, 2>;

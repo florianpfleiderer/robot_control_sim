@@ -5,9 +5,9 @@
 #include "coordinate.h"
 #include <algorithm>
 
-class Controller {
+class PID {
   public:
-  Controller(double kp = 1.0, double ki = 0.0, double kd = 0.0) noexcept;
+  PID(double kp = 1.0, double ki = 0.0, double kd = 0.0) noexcept;
 
   /**
    * @brief Computes next acceleration commands based on input.
