@@ -12,7 +12,7 @@
 #include <vector>
 
 #ifndef USE_MPC_CONTROLLER
-#define USE_MPC_CONTROLLER 0
+#define USE_MPC_CONTROLLER 1
 #endif
 
 #ifndef USE_DISTURBANCE_CORRECTION
@@ -35,7 +35,11 @@ int main() {
   std::vector<double> ctrl_ax, ctrl_ay;
 
 #if USE_MPC_CONTROLLER
-  MPC            mpc_controller {dt, 20};
+#if USE_DISTURBANCE_CORRECTION
+  MPC6D            mpc_controller {dt, 20};
+#else
+  MPC4D            mpc_controller {dt, 20};
+#endif
   constexpr auto controller_name = "MPC";
 #else
   PID            pid {0.75, 0.1, 0.6};
@@ -88,6 +92,23 @@ int main() {
   kf.setMeasurementMatrix(H);
   kf.setProcessNoiseCovariance(Q);
   kf.setMeasurementNoiseCovariance(R);
+#if USE_MPC_CONTROLLER
+  mpc_controller.setPredictionModel(A, B);
+
+  MPC6D::StateMatrix q_aug;
+  q_aug.setZero();
+  q_aug(0, 0) = 25.0;
+  q_aug(1, 1) = 2.0;
+  q_aug(2, 2) = 25.0;
+  q_aug(3, 3) = 2.0;
+  q_aug(4, 4) = 1e-2;
+  q_aug(5, 5) = 1e-2;
+
+  MPC6D::ControlWeight r_aug = MPC6D::ControlWeight::Identity();
+  r_aug *= 0.2;
+
+  mpc_controller.setWeights(q_aug, r_aug);
+#endif
 #else
   using KF2D = PositionVelocityKF2D;
 
@@ -155,9 +176,15 @@ int main() {
     double ay = 0.0;
 
 #if USE_MPC_CONTROLLER
-    MPC::StateVector   estimated_state = xhat;
-    MPC::ControlVector control_cmd = mpc_controller.computeControlToPosition(
+#if USE_DISTURBANCE_CORRECTION
+    MPC6D::StateVector   estimated_state = xhat;
+    MPC6D::ControlVector control_cmd = mpc_controller.computeControlToPosition(
         estimated_state, position_target);
+#else
+    MPC4D::StateVector   estimated_state = xhat;
+    MPC4D::ControlVector control_cmd = mpc_controller.computeControlToPosition(
+        estimated_state, position_target);
+#endif
     ax = control_cmd(0);
     ay = control_cmd(1);
 #else

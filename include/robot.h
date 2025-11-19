@@ -28,6 +28,6 @@ class Robot {
   double                  vy_ {};
   static constexpr double friction_constant {0.98};
   static constexpr double motor_efficiency_ {0.8};
-  static constexpr double disturbance_x_ {-0.5};
-  static constexpr double disturbance_y_ {0.0};
+  static constexpr double disturbance_x_ {1.5};
+  static constexpr double disturbance_y_ {-0.9};
 };

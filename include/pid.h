@@ -22,7 +22,7 @@ class PID {
   double                  kp_ {};
   double                  ki_ {};
   double                  kd_ {};
-  static constexpr double integral_limit_ {10.0};
+  static constexpr double integral_limit_ {25.0};
   static constexpr double integral_leak_ {0.0};
   Coordinate<double>      integral_error_ {};
   Coordinate<double>      prev_error_ {};
