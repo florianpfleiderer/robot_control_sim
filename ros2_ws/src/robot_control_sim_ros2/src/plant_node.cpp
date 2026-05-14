@@ -14,6 +14,9 @@ class PlantNode : public rclcpp::Node {
   public:
   PlantNode() : Node("plant_node") {
     dt_ = this->declare_parameter<double>("dt", 0.05);
+    const double initial_x = this->declare_parameter<double>("initial_x", 5.0);
+    const double initial_y = this->declare_parameter<double>("initial_y", 5.0);
+    robot_ = Robot(initial_x, initial_y);
 
     pose_pub_  = this->create_publisher<geometry_msgs::msg::PoseStamped>(
         "/robot/true_pose", 10);

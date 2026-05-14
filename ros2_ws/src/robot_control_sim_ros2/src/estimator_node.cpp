@@ -23,8 +23,12 @@ class EstimatorNode : public rclcpp::Node {
     const double r_std  = this->declare_parameter<double>("measurement_stddev", 0.05);
     const double q_pv   = this->declare_parameter<double>("process_noise_pv", 1e-4);
     const double q_dist = this->declare_parameter<double>("process_noise_disturbance", 1e-2);
+    const double x0_x   = this->declare_parameter<double>("initial_x", 5.0);
+    const double x0_y   = this->declare_parameter<double>("initial_y", 5.0);
 
     Eigen::Matrix<double, 6, 1> x0 = Eigen::Matrix<double, 6, 1>::Zero();
+    x0(0) = x0_x;
+    x0(2) = x0_y;
     Eigen::Matrix<double, 6, 6> P0 = Eigen::Matrix<double, 6, 6>::Identity() * 1e-2;
     kf_                            = std::make_unique<KF2D>(x0, P0);
 

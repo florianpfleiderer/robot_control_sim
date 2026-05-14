@@ -87,5 +87,10 @@ set_target_properties(robot_sim
 
 # --- Tests ------------------------------------------------------------------
 
-enable_testing()
-add_subdirectory(tests)
+# Only build the standalone GoogleTest suite when this project is built on its
+# own. When consumed as a subdirectory (e.g. by the ROS 2 package), skip it so
+# gtest_discover_tests doesn't register tests against an unbuilt executable.
+if(CMAKE_SOURCE_DIR STREQUAL CMAKE_CURRENT_SOURCE_DIR)
+    enable_testing()
+    add_subdirectory(tests)
+endif()

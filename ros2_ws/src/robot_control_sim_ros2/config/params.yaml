@@ -1,6 +1,8 @@
 plant_node:
   ros__parameters:
     dt: 0.05
+    initial_x: 5.0
+    initial_y: 5.0
 
 sensor_node:
   ros__parameters:
@@ -12,13 +14,15 @@ estimator_node:
     measurement_stddev: 0.05
     process_noise_pv: 0.0001
     process_noise_disturbance: 0.01
+    initial_x: 5.0
+    initial_y: 5.0
 
 controller_node:
   ros__parameters:
     dt: 0.05
     controller_type: "mpc6d"
-    target_x: 5.0
-    target_y: 5.0
+    target_x: 0.0
+    target_y: 0.0
     mpc_horizon: 20
     mpc_q_position: 25.0
     mpc_q_velocity: 2.0

@@ -34,22 +34,23 @@ jobs:
   ros2:
     name: ROS 2 Jazzy (colcon build + launch_testing)
     runs-on: ubuntu-24.04
+    container: ros:jazzy-ros-base
     steps:
       - uses: actions/checkout@v4
 
-      - uses: ros-tooling/setup-ros@v0.7
-        with:
-          required-ros-distributions: jazzy
-
       - name: Install package deps
+        shell: bash
         run: |
-          sudo apt-get update
-          sudo apt-get install -y --no-install-recommends \
+          apt-get update
+          apt-get install -y --no-install-recommends \
+            build-essential \
+            cmake \
+            git \
+            python3-colcon-common-extensions \
             ros-jazzy-xacro \
-            ros-jazzy-tf2-ros \
-            ros-jazzy-tf2-geometry-msgs \
-            ros-jazzy-launch-testing-ament-cmake \
-            ros-jazzy-launch-testing
+            ros-jazzy-robot-state-publisher \
+            ros-jazzy-launch-testing \
+            ros-jazzy-launch-testing-ament-cmake
 
       - name: colcon build
         shell: bash
