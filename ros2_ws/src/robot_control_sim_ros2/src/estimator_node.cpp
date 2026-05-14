@@ -7,6 +7,7 @@
 #include <geometry_msgs/msg/accel_stamped.hpp>
 #include <geometry_msgs/msg/point_stamped.hpp>
 #include <geometry_msgs/msg/transform_stamped.hpp>
+#include <geometry_msgs/msg/vector3_stamped.hpp>
 #include <nav_msgs/msg/odometry.hpp>
 #include <rclcpp/rclcpp.hpp>
 #include <tf2_ros/transform_broadcaster.h>
@@ -56,6 +57,8 @@ class EstimatorNode : public rclcpp::Node {
     kf_->setMeasurementNoiseCovariance(R);
 
     odom_pub_ = this->create_publisher<nav_msgs::msg::Odometry>("/robot/odom", 10);
+    disturbance_pub_ = this->create_publisher<geometry_msgs::msg::Vector3Stamped>(
+        "/robot/disturbance", 10);
     tf_broadcaster_ = std::make_unique<tf2_ros::TransformBroadcaster>(*this);
 
     cmd_sub_ = this->create_subscription<geometry_msgs::msg::AccelStamped>(
@@ -90,6 +93,13 @@ class EstimatorNode : public rclcpp::Node {
     odom.twist.twist.linear.y    = x(3);
     odom_pub_->publish(odom);
 
+    geometry_msgs::msg::Vector3Stamped d;
+    d.header.stamp    = stamp;
+    d.header.frame_id = "map";
+    d.vector.x        = x(4);
+    d.vector.y        = x(5);
+    disturbance_pub_->publish(d);
+
     geometry_msgs::msg::TransformStamped tf;
     tf.header.stamp            = stamp;
     tf.header.frame_id         = "odom";
@@ -106,6 +116,7 @@ class EstimatorNode : public rclcpp::Node {
   std::unique_ptr<tf2_ros::TransformBroadcaster> tf_broadcaster_;
 
   rclcpp::Publisher<nav_msgs::msg::Odometry>::SharedPtr             odom_pub_;
+  rclcpp::Publisher<geometry_msgs::msg::Vector3Stamped>::SharedPtr  disturbance_pub_;
   rclcpp::Subscription<geometry_msgs::msg::AccelStamped>::SharedPtr cmd_sub_;
   rclcpp::Subscription<geometry_msgs::msg::PointStamped>::SharedPtr meas_sub_;
 };
