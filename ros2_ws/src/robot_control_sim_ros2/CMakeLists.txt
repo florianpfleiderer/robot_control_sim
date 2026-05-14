@@ -58,8 +58,11 @@ install(DIRECTORY launch config urdf rviz
 )
 
 if(BUILD_TESTING)
-  find_package(ament_lint_auto REQUIRED)
-  ament_lint_auto_find_test_dependencies()
+  # ament_lint_auto enables a noisy default suite (copyright headers,
+  # single-quote enforcement, uncrustify, etc.) that doesn't match this
+  # project's conventions. Re-enable selectively if/when needed.
+  find_package(launch_testing_ament_cmake REQUIRED)
+  add_launch_test(test/test_launch.py)
 endif()
 
 ament_package()
