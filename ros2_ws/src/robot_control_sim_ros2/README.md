@@ -29,8 +29,9 @@ ros2 param set /controller_node controller_type pid     # or mpc4d / mpc6d
 | `/robot/true_pose`   | `geometry_msgs/PoseStamped`   | plant → *          |
 | `/robot/true_twist`  | `geometry_msgs/TwistStamped`  | plant → *          |
 | `/robot/measurement` | `geometry_msgs/PointStamped`  | sensor → estimator |
-| `/robot/odom`        | `nav_msgs/Odometry`           | estimator → ctrl   |
-| `/cmd_accel`         | `geometry_msgs/AccelStamped`  | controller → plant |
+| `/robot/odom`        | `nav_msgs/Odometry`            | estimator → ctrl   |
+| `/robot/disturbance` | `geometry_msgs/Vector3Stamped` | estimator → ctrl   |
+| `/cmd_accel`         | `geometry_msgs/AccelStamped`   | controller → plant |
 
 ## Frames
 

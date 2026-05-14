@@ -5,6 +5,7 @@
 
 #include <Eigen/Dense>
 #include <geometry_msgs/msg/accel_stamped.hpp>
+#include <geometry_msgs/msg/vector3_stamped.hpp>
 #include <nav_msgs/msg/odometry.hpp>
 #include <rclcpp/rclcpp.hpp>
 
@@ -50,6 +51,12 @@ class ControllerNode : public rclcpp::Node {
     sub_ = this->create_subscription<nav_msgs::msg::Odometry>(
         "/robot/odom", 10,
         [this](nav_msgs::msg::Odometry::SharedPtr msg) { on_odom(*msg); });
+
+    disturbance_sub_ = this->create_subscription<geometry_msgs::msg::Vector3Stamped>(
+        "/robot/disturbance", 10,
+        [this](geometry_msgs::msg::Vector3Stamped::SharedPtr msg) {
+          last_disturbance_ << msg->vector.x, msg->vector.y;
+        });
   }
 
   private:
@@ -121,13 +128,13 @@ class ControllerNode : public rclcpp::Node {
       ax = u(0);
       ay = u(1);
     } else { // mpc6d
-      // /odom only carries pose+twist; disturbance components are zeroed.
-      // v2 will add a /robot/disturbance topic to close this gap.
-      MPC6D::StateVector x = MPC6D::StateVector::Zero();
+      MPC6D::StateVector x;
       x(0) = msg.pose.pose.position.x;
       x(1) = msg.twist.twist.linear.x;
       x(2) = msg.pose.pose.position.y;
       x(3) = msg.twist.twist.linear.y;
+      x(4) = last_disturbance_(0);
+      x(5) = last_disturbance_(1);
       auto u = mpc6d_->computeControlToPosition(x, target);
       ax = u(0);
       ay = u(1);
@@ -150,8 +157,11 @@ class ControllerNode : public rclcpp::Node {
   std::unique_ptr<MPC4D> mpc4d_;
   std::unique_ptr<MPC6D> mpc6d_;
 
-  rclcpp::Publisher<geometry_msgs::msg::AccelStamped>::SharedPtr pub_;
-  rclcpp::Subscription<nav_msgs::msg::Odometry>::SharedPtr       sub_;
+  Eigen::Vector2d last_disturbance_ {Eigen::Vector2d::Zero()};
+
+  rclcpp::Publisher<geometry_msgs::msg::AccelStamped>::SharedPtr      pub_;
+  rclcpp::Subscription<nav_msgs::msg::Odometry>::SharedPtr            sub_;
+  rclcpp::Subscription<geometry_msgs::msg::Vector3Stamped>::SharedPtr disturbance_sub_;
 };
 
 int main(int argc, char **argv) {
