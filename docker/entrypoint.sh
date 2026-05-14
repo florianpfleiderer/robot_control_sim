@@ -1,5 +1,7 @@
 #!/usr/bin/env bash
-set -euo pipefail
+# ROS setup scripts reference unset variables (e.g. AMENT_TRACE_SETUP_FILES),
+# so nounset is intentionally omitted here.
+set -eo pipefail
 
 # shellcheck disable=SC1091
 source /opt/ros/jazzy/setup.bash
