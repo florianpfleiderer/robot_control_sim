@@ -2,6 +2,7 @@ include(GoogleTest)
 
 add_executable(robot_sim_tests
     test_robot.cpp
+    test_pid.cpp
 )
 
 target_link_libraries(robot_sim_tests
