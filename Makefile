@@ -2,9 +2,13 @@
 COMPOSE := docker compose -f docker/compose.yaml
 UID := $(shell id -u)
 GID := $(shell id -g)
+VIDEO_GID := $(shell getent group video  | cut -d: -f3)
+RENDER_GID := $(shell getent group render | cut -d: -f3)
 
 export UID
 export GID
+export VIDEO_GID
+export RENDER_GID
 
 .PHONY: image ws shell launch test clean down
 

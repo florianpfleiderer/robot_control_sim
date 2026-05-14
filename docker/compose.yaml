@@ -13,6 +13,17 @@ services:
     environment:
       - DISPLAY=${DISPLAY:-:0}
       - QT_X11_NO_MITSHM=1
+    # GPU passthrough for rviz2 / OpenGL. Covers Intel and AMD out of the box
+    # via the kernel DRM nodes. NVIDIA users with the proprietary driver also
+    # need nvidia-container-toolkit installed and should add `runtime: nvidia`
+    # plus NVIDIA_VISIBLE_DEVICES=all / NVIDIA_DRIVER_CAPABILITIES=all here.
+    devices:
+      - /dev/dri:/dev/dri
+    # GIDs are resolved on the host by the Makefile so device file ownership
+    # matches inside the container regardless of distro. Defaults match Ubuntu.
+    group_add:
+      - "${VIDEO_GID:-44}"
+      - "${RENDER_GID:-993}"
     volumes:
       - ..:/workspace:rw
       - /tmp/.X11-unix:/tmp/.X11-unix:rw
