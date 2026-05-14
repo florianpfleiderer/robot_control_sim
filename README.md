@@ -19,4 +19,11 @@ cmake -S . -B build && cmake --build build
 
 Binary: `bin/robot_sim`
 
+## ROS 2 (v1)
+
+A ROS 2 Jazzy package wraps the same controllers and exposes them as nodes.
+See [`ros2_ws/src/robot_control_sim_ros2/README.md`](ros2_ws/src/robot_control_sim_ros2/README.md).
+Local execution requires ROS 2 Jazzy; v2 will provide a Docker environment
+for machines without a native install.
+
 TODO: add a `pybind` wrapper
